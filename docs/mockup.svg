@@ -1,0 +1,203 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="coolGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(174 220) rotate(49) scale(520 390)">
+      <stop stop-color="#24A6D4" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#24A6D4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="warmGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1000 196) rotate(131) scale(440 330)">
+      <stop stop-color="#F4AC40" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#F4AC40" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cardBg" x1="84" y1="70" x2="1116" y2="1430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101820"/>
+      <stop offset="0.48" stop-color="#172026"/>
+      <stop offset="1" stop-color="#1D2B2E"/>
+    </linearGradient>
+    <linearGradient id="pipeGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#4DB7D8"/>
+      <stop offset="0.35" stop-color="#4EE1A0"/>
+      <stop offset="0.7" stop-color="#F4AC40"/>
+      <stop offset="1" stop-color="#F06948"/>
+    </linearGradient>
+    <linearGradient id="tankFill" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#FFDD7E"/>
+      <stop offset="1" stop-color="#F06948"/>
+    </linearGradient>
+    <linearGradient id="houseFill" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#8BD7EF"/>
+      <stop offset="1" stop-color="#4EE1A0"/>
+    </linearGradient>
+    <filter id="softShadow" x="36" y="26" width="1128" height="1190" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="26" flood-color="#000000" flood-opacity="0.34"/>
+    </filter>
+    <filter id="smallShadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+    <style>
+      .title { font: 850 44px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #FFFFFF; }
+      .subtitle { font: 500 20px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: rgba(247,251,255,0.72); }
+      .eyebrow { font: 800 16px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 1.2px; fill: #8BD7EF; }
+      .sectionTitle { font: 850 19px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #FFFFFF; }
+      .label { font: 800 15px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: rgba(247,251,255,0.82); }
+      .tiny { font: 800 13px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: rgba(247,251,255,0.62); letter-spacing: 0.7px; }
+      .value { font: 850 25px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #FFFFFF; }
+      .rowText { font: 500 15px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: rgba(247,251,255,0.76); }
+      .rowValue { font: 780 15px Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #FFFFFF; text-anchor: end; }
+      .panelStroke { stroke: rgba(255,255,255,0.12); }
+      .softPanel { fill: rgba(255,255,255,0.075); stroke: rgba(255,255,255,0.11); }
+      .componentPanel { fill: rgba(255,255,255,0.08); stroke: rgba(255,255,255,0.13); }
+      .pipeFlow { animation: dash 1.35s linear infinite; }
+      .fan { transform-origin: 219px 384px; animation: spin 1.45s linear infinite; }
+      .pulse { animation: pulse 1.6s ease-in-out infinite; transform-origin: center; }
+      @keyframes dash { to { stroke-dashoffset: -86; } }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      @keyframes pulse { 0%, 100% { opacity: 0.72; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+    </style>
+  </defs>
+
+  <rect width="1200" height="1200" fill="#E8EEF1"/>
+  <g filter="url(#softShadow)">
+    <rect x="84" y="70" width="1032" height="1080" rx="30" fill="url(#cardBg)"/>
+    <rect x="84" y="70" width="1032" height="1080" rx="30" fill="url(#coolGlow)"/>
+    <rect x="84" y="70" width="1032" height="1080" rx="30" fill="url(#warmGlow)"/>
+  </g>
+
+  <text x="130" y="133" class="eyebrow">MYVAILLANT HEAT PUMP</text>
+  <text x="130" y="187" class="title">Sample Residence</text>
+  <text x="130" y="224" class="subtitle">Utility Room - aroTHERM plus + uniTOWER - v0.2.0</text>
+
+  <g class="pulse">
+    <rect x="848" y="108" width="214" height="82" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.14)"/>
+    <circle cx="888" cy="149" r="20" fill="#4EE1A0" opacity="0.22"/>
+    <path d="M881 138L902 149L881 160V138Z" fill="#4EE1A0"/>
+    <text x="922" y="140" class="tiny">DRIFT</text>
+    <text x="922" y="166" class="sectionTitle">Heating</text>
+  </g>
+
+  <g filter="url(#smallShadow)">
+    <rect x="130" y="285" width="254" height="244" rx="22" class="componentPanel"/>
+    <text x="174" y="325" class="label">aroTHERM plus</text>
+    <circle cx="151" cy="318" r="11" fill="#8BD7EF"/>
+    <rect x="160" y="350" width="190" height="118" rx="18" fill="rgba(255,255,255,0.075)" stroke="#8BD7EF" stroke-opacity="0.54" stroke-width="3"/>
+    <g class="fan">
+      <circle cx="219" cy="409" r="45" fill="none" stroke="#8BD7EF" stroke-width="6" opacity="0.76"/>
+      <path d="M219 409C209 385 218 371 231 370C236 388 231 400 219 409Z" fill="#8BD7EF" opacity="0.9"/>
+      <path d="M219 409C244 405 255 416 251 429C233 431 224 423 219 409Z" fill="#8BD7EF" opacity="0.9"/>
+      <path d="M219 409C204 429 189 431 182 420C194 405 207 403 219 409Z" fill="#8BD7EF" opacity="0.9"/>
+      <circle cx="219" cy="409" r="8" fill="#172026" stroke="#8BD7EF" stroke-width="4"/>
+    </g>
+    <g opacity="0.58">
+      <rect x="302" y="373" width="5" height="72" rx="3" fill="#FFFFFF"/>
+      <rect x="316" y="373" width="5" height="72" rx="3" fill="#FFFFFF"/>
+      <rect x="330" y="373" width="5" height="72" rx="3" fill="#FFFFFF"/>
+    </g>
+    <rect x="160" y="482" width="190" height="36" rx="12" fill="rgba(0,0,0,0.18)"/>
+    <text x="174" y="505" class="tiny">UDE</text>
+    <text x="338" y="506" class="rowValue">3.8 C</text>
+  </g>
+
+  <g>
+    <line x1="407" y1="407" x2="507" y2="407" stroke="rgba(255,255,255,0.14)" stroke-width="22" stroke-linecap="round"/>
+    <line x1="407" y1="407" x2="507" y2="407" stroke="url(#pipeGradient)" stroke-width="12" stroke-linecap="round" stroke-dasharray="34 18" class="pipeFlow"/>
+    <circle cx="457" cy="407" r="5" fill="rgba(255,255,255,0.8)"/>
+  </g>
+
+  <g filter="url(#smallShadow)">
+    <rect x="530" y="285" width="254" height="244" rx="22" class="componentPanel"/>
+    <text x="574" y="325" class="label">uniTOWER / tank</text>
+    <circle cx="551" cy="318" r="11" fill="#F4AC40"/>
+    <rect x="574" y="352" width="66" height="124" rx="25" fill="rgba(255,255,255,0.075)" stroke="#F4AC40" stroke-opacity="0.62" stroke-width="3"/>
+    <path d="M576 412H638V453C638 466 628 476 615 476H599C586 476 576 466 576 453V412Z" fill="url(#tankFill)" opacity="0.9"/>
+    <rect x="664" y="357" width="82" height="27" rx="8" fill="rgba(255,255,255,0.14)"/>
+    <rect x="664" y="396" width="82" height="27" rx="8" fill="rgba(255,255,255,0.14)"/>
+    <rect x="664" y="435" width="82" height="27" rx="8" fill="rgba(255,255,255,0.14)"/>
+    <rect x="560" y="482" width="190" height="36" rx="12" fill="rgba(0,0,0,0.18)"/>
+    <text x="574" y="505" class="tiny">VARMT VAND</text>
+    <text x="738" y="506" class="rowValue">48.6 C</text>
+  </g>
+
+  <g>
+    <line x1="807" y1="407" x2="907" y2="407" stroke="rgba(255,255,255,0.14)" stroke-width="22" stroke-linecap="round"/>
+    <line x1="807" y1="407" x2="907" y2="407" stroke="url(#pipeGradient)" stroke-width="12" stroke-linecap="round" stroke-dasharray="34 18" class="pipeFlow"/>
+    <circle cx="857" cy="407" r="5" fill="rgba(255,255,255,0.8)"/>
+  </g>
+
+  <g filter="url(#smallShadow)">
+    <rect x="930" y="285" width="254" height="244" rx="22" class="componentPanel" transform="translate(-68 0)"/>
+    <text x="906" y="325" class="label">Zone 1 / heating circuit</text>
+    <circle cx="883" cy="318" r="11" fill="#4EE1A0"/>
+    <path d="M988 344L1071 404H1056V465H920V404H905L988 344Z" fill="url(#houseFill)" opacity="0.9"/>
+    <rect x="954" y="424" width="68" height="41" rx="8" fill="rgba(16,24,32,0.35)"/>
+    <ellipse cx="988" cy="490" rx="78" ry="25" fill="none" stroke="#F4AC40" stroke-width="8"/>
+    <path d="M914 490C944 470 1031 470 1062 490" stroke="#4DB7D8" stroke-width="8" stroke-linecap="round"/>
+    <rect x="892" y="482" width="190" height="36" rx="12" fill="rgba(0,0,0,0.18)"/>
+    <text x="906" y="505" class="tiny">RUM</text>
+    <text x="1070" y="506" class="rowValue">21.2 C</text>
+    <rect x="892" y="530" width="190" height="8" rx="4" fill="rgba(255,255,255,0.14)"/>
+    <rect x="892" y="530" width="132" height="8" rx="4" fill="url(#pipeGradient)"/>
+  </g>
+
+  <g>
+    <rect x="130" y="572" width="227" height="76" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)"/>
+    <text x="150" y="604" class="tiny">FREMLØB</text>
+    <text x="150" y="632" class="value">34.7 C</text>
+    <circle cx="324" cy="610" r="13" fill="#F06948" opacity="0.36"/>
+    <rect x="389" y="572" width="227" height="76" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)"/>
+    <text x="409" y="604" class="tiny">VANDTRYK</text>
+    <text x="409" y="632" class="value">1.8 bar</text>
+    <circle cx="583" cy="610" r="13" fill="#8BD7EF" opacity="0.36"/>
+    <rect x="648" y="572" width="227" height="76" rx="18" fill="rgba(240,105,72,0.16)" stroke="rgba(240,105,72,0.5)"/>
+    <text x="668" y="604" class="tiny">DHW BOOST</text>
+    <text x="668" y="632" class="value">Active</text>
+    <circle cx="842" cy="610" r="13" fill="#F4AC40" opacity="0.4"/>
+    <rect x="907" y="572" width="157" height="76" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)"/>
+    <text x="927" y="604" class="tiny">AWAY</text>
+    <text x="927" y="632" class="value">Off</text>
+  </g>
+
+  <g>
+    <rect x="130" y="690" width="456" height="210" rx="18" class="softPanel"/>
+    <text x="164" y="730" class="sectionTitle">Operation</text>
+    <circle cx="147" cy="723" r="10" fill="#F4AC40"/>
+    <line x1="152" y1="756" x2="564" y2="756" stroke="rgba(255,255,255,0.08)"/>
+    <text x="164" y="786" class="rowText">Energy manager</text><text x="560" y="786" class="rowValue">Heating</text>
+    <line x1="152" y1="812" x2="564" y2="812" stroke="rgba(255,255,255,0.08)"/>
+    <text x="164" y="842" class="rowText">Circuit state</text><text x="560" y="842" class="rowValue">Active</text>
+    <line x1="152" y1="868" x2="564" y2="868" stroke="rgba(255,255,255,0.08)"/>
+    <text x="164" y="890" class="rowText">Firmware</text><text x="560" y="890" class="rowValue">0357.38</text>
+
+    <rect x="614" y="690" width="456" height="210" rx="18" class="softPanel"/>
+    <text x="648" y="730" class="sectionTitle">Heating circuit</text>
+    <circle cx="631" cy="723" r="10" fill="#F4AC40"/>
+    <line x1="636" y1="756" x2="1048" y2="756" stroke="rgba(255,255,255,0.08)"/>
+    <text x="648" y="786" class="rowText">Flow temperature</text><text x="1044" y="786" class="rowValue">34.7 C</text>
+    <line x1="636" y1="812" x2="1048" y2="812" stroke="rgba(255,255,255,0.08)"/>
+    <text x="648" y="842" class="rowText">Heating curve</text><text x="1044" y="842" class="rowValue">0.45</text>
+    <line x1="636" y1="868" x2="1048" y2="868" stroke="rgba(255,255,255,0.08)"/>
+    <text x="648" y="890" class="rowText">Ønsket temperatur</text><text x="1044" y="890" class="rowValue">21.5 C</text>
+  </g>
+
+  <g>
+    <rect x="130" y="930" width="456" height="210" rx="18" class="softPanel"/>
+    <text x="164" y="970" class="sectionTitle">Domestic hot water</text>
+    <circle cx="147" cy="963" r="10" fill="#F4AC40"/>
+    <line x1="152" y1="996" x2="564" y2="996" stroke="rgba(255,255,255,0.08)"/>
+    <text x="164" y="1026" class="rowText">Tanktemperatur</text><text x="560" y="1026" class="rowValue">48.6 C</text>
+    <line x1="152" y1="1052" x2="564" y2="1052" stroke="rgba(255,255,255,0.08)"/>
+    <text x="164" y="1082" class="rowText">Setpoint</text><text x="560" y="1082" class="rowValue">50 C</text>
+    <line x1="152" y1="1108" x2="564" y2="1108" stroke="rgba(255,255,255,0.08)"/>
+    <text x="164" y="1130" class="rowText">Legionella reached</text><text x="560" y="1130" class="rowValue">No</text>
+
+    <rect x="614" y="930" width="456" height="210" rx="18" class="softPanel"/>
+    <text x="648" y="970" class="sectionTitle">Energy</text>
+    <circle cx="631" cy="963" r="10" fill="#F4AC40"/>
+    <line x1="636" y1="996" x2="1048" y2="996" stroke="rgba(255,255,255,0.08)"/>
+    <text x="648" y="1026" class="rowText">Effektivitet system</text><text x="1044" y="1026" class="rowValue">4.1</text>
+    <line x1="636" y1="1052" x2="1048" y2="1052" stroke="rgba(255,255,255,0.08)"/>
+    <text x="648" y="1082" class="rowText">aroTHERM electrical heating</text><text x="1044" y="1082" class="rowValue">312 kWh</text>
+    <line x1="636" y1="1108" x2="1048" y2="1108" stroke="rgba(255,255,255,0.08)"/>
+    <text x="648" y="1130" class="rowText">Environment energy heating</text><text x="1044" y="1130" class="rowValue">918 kWh</text>
+  </g>
+
+  <text x="600" y="1180" text-anchor="middle" class="subtitle">Mock-up af custom:myvaillant-heatpump-card</text>
+</svg>

@@ -1,0 +1,7 @@
+{
+  "name": "MyVaillant Heat Pump Card",
+  "content_in_root": true,
+  "filename": "myvaillant-heatpump-card.js",
+  "render_readme": true,
+  "homeassistant": "2024.11.0"
+}
