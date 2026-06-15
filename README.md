@@ -10,8 +10,9 @@ The card shows a modern air-to-water heat pump setup with an outdoor unit, anima
 
 - Animated heat pump infographic with outdoor unit, uniTOWER/tank and heating zone.
 - Responsive layout for both narrow and wide Home Assistant sections views.
-- Visual Lovelace editor with entity pickers, so you do not need to edit YAML for normal setup.
-- Optional YAML configuration for advanced users.
+- Compact section-friendly layout with dense summary tiles and the same detailed data rows.
+- Visual Lovelace editor for title, subtitle, compact layout, empty-field visibility and all entity pickers, so you do not need to edit YAML for normal setup.
+- Optional YAML configuration for advanced users who prefer it.
 - Empty fields are hidden automatically unless `show_empty` is enabled.
 
 ## Installation with HACS
@@ -44,7 +45,7 @@ After installation:
 1. Edit your dashboard.
 2. Add a new card.
 3. Search for `MyVaillant Heat Pump Card`.
-4. Use the visual editor to type entity IDs manually or choose them from the entity picker dropdowns.
+4. Use the visual editor to configure the title, subtitle, compact layout, empty-field visibility and entities.
 
 You can leave fields empty. The card will only show rows for configured entities by default.
 
@@ -53,11 +54,15 @@ You can leave fields empty. The card will only show rows for configured entities
 The card declares grid options for Home Assistant sections view:
 
 - Default width: 12 columns.
-- Minimum width: 6 columns.
+- Minimum width: 4 columns.
 - Maximum width: 12 columns.
 - Height is content-driven to avoid clipping when many entities are configured.
 
-The layout uses container queries, so it adapts to the actual card width. In a wide section it shows the full horizontal infographic. In a narrower section it stacks the heat pump components vertically and keeps the detailed panels readable.
+The layout uses container queries, so it adapts to the actual card width. In a wide section it shows the full horizontal infographic. In a narrower section it stacks the heat pump components vertically, and at very narrow widths it replaces the large infographic with compact summary tiles to keep the card inside its section.
+
+Enable the compact layout with the `Compact layout` switch in the visual editor when the card should take less horizontal and vertical space.
+
+Compact cards default to 6 columns, can shrink to 3 columns, and still show all configured detailed rows below the summary.
 
 ## YAML Example
 
@@ -67,6 +72,7 @@ The visual editor is the recommended setup path, but YAML is also supported. Rep
 type: custom:myvaillant-heatpump-card
 title: Sample Residence
 subtitle: Utility Room · aroTHERM plus + uniTOWER
+compact: false
 entities:
   outdoor_temperature: sensor.sample_home_outdoor_temperature
   system_water_pressure: sensor.sample_home_system_water_pressure

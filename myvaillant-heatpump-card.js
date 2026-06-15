@@ -1,10 +1,11 @@
-const CARD_VERSION = "0.2.0";
+const CARD_VERSION = "0.3.0";
 const CARD_TAG = "myvaillant-heatpump-card";
 const EDITOR_TAG = "myvaillant-heatpump-card-editor";
 
 const DEFAULT_CONFIG = {
   title: "myVAILLANT",
   subtitle: "Air-to-water heat pump",
+  compact: false,
   show_empty: false,
   entities: {},
 };
@@ -119,13 +120,21 @@ class MyVaillantHeatPumpCard extends HTMLElement {
   }
 
   getCardSize() {
-    return 8;
+    return this.config?.compact ? 5 : 8;
   }
 
   getGridOptions() {
+    if (this.config?.compact) {
+      return {
+        columns: 6,
+        min_columns: 3,
+        max_columns: 12,
+      };
+    }
+
     return {
       columns: 12,
-      min_columns: 6,
+      min_columns: 4,
       max_columns: 12,
     };
   }
@@ -304,6 +313,21 @@ class MyVaillantHeatPumpCard extends HTMLElement {
     return escapeHtml(value);
   }
 
+  summaryTile(label, key, icon, options = {}) {
+    const { active = false, tone = "", value } = options;
+    if (!this.config.show_empty && key && !this.hasEntity(key)) {
+      return "";
+    }
+
+    return `
+      <div class="summary-tile ${tone} ${active ? "active" : ""}" title="${this.escape(key ? this.getEntityId(key) || "" : "")}">
+        <ha-icon icon="${icon}"></ha-icon>
+        <span>${this.escape(label)}</span>
+        <b>${value ?? this.formatState(key)}</b>
+      </div>
+    `;
+  }
+
   render() {
     if (!this.config || !this._hass) {
       return;
@@ -317,6 +341,28 @@ class MyVaillantHeatPumpCard extends HTMLElement {
     const status = this.hasEntity("energy_manager_state")
       ? this.formatState("energy_manager_state")
       : this.formatState("circuit_state");
+    const compact = Boolean(this.config.compact);
+
+    const summaryTiles = [
+      this.summaryTile("Operation", null, running ? "mdi:play-circle" : "mdi:pause-circle", {
+        active: running,
+        value: status,
+      }),
+      this.summaryTile("Outdoor", "outdoor_temperature", "mdi:thermometer"),
+      this.summaryTile("Flow", "current_flow_temperature", "mdi:thermometer-water", { tone: "hot" }),
+      this.summaryTile("Room", "zone_current_temperature", "mdi:home-thermometer"),
+      this.summaryTile("DHW", "dhw_tank_temperature", "mdi:water-boiler", { tone: "hot" }),
+      this.summaryTile("Pressure", "system_water_pressure", "mdi:gauge", { tone: pressureClass }),
+      this.summaryTile("DHW boost", "dhw_boost", "mdi:rocket-launch", {
+        active: this.isActive("dhw_boost"),
+        tone: "hot",
+        value: this.boolLabel("dhw_boost"),
+      }),
+      this.summaryTile("Away", "away_mode", "mdi:home-export-outline", {
+        active: this.isActive("away_mode"),
+        value: this.boolLabel("away_mode"),
+      }),
+    ].join("");
 
     const panels = [
       this.panel("Operation", "mdi:heat-pump", [
@@ -374,6 +420,8 @@ class MyVaillantHeatPumpCard extends HTMLElement {
       <style>
         :host {
           display: block;
+          max-width: 100%;
+          min-width: 0;
         }
 
         *,
@@ -384,6 +432,8 @@ class MyVaillantHeatPumpCard extends HTMLElement {
 
         ha-card {
           container-type: inline-size;
+          width: 100%;
+          max-width: 100%;
           overflow: hidden;
           border-radius: var(--ha-card-border-radius, 20px);
           background:
@@ -396,6 +446,8 @@ class MyVaillantHeatPumpCard extends HTMLElement {
 
         .card {
           padding: 22px;
+          max-width: 100%;
+          min-width: 0;
         }
 
         .top {
@@ -419,6 +471,7 @@ class MyVaillantHeatPumpCard extends HTMLElement {
           font-size: 28px;
           font-weight: 850;
           line-height: 1.05;
+          overflow-wrap: anywhere;
         }
 
         .subtitle {
@@ -429,10 +482,11 @@ class MyVaillantHeatPumpCard extends HTMLElement {
 
         .runtime {
           display: grid;
-          grid-template-columns: 34px auto;
+          grid-template-columns: 34px minmax(0, 1fr);
           gap: 10px;
           align-items: center;
           min-width: 172px;
+          max-width: 100%;
           padding: 10px 12px;
           border: 1px solid rgba(255, 255, 255, 0.14);
           border-radius: 14px;
@@ -462,7 +516,7 @@ class MyVaillantHeatPumpCard extends HTMLElement {
           color: #fff;
           font-size: 14px;
           font-weight: 800;
-          max-width: 180px;
+          max-width: 100%;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -470,15 +524,17 @@ class MyVaillantHeatPumpCard extends HTMLElement {
 
         .scene {
           display: grid;
-          grid-template-columns: minmax(160px, 1.05fr) minmax(52px, 0.35fr) minmax(170px, 0.95fr) minmax(52px, 0.35fr) minmax(170px, 1fr);
+          grid-template-columns: minmax(0, 1.05fr) minmax(28px, 0.22fr) minmax(0, 0.95fr) minmax(28px, 0.22fr) minmax(0, 1fr);
           gap: 12px;
           align-items: center;
           min-height: 240px;
           margin: 4px 0 18px;
+          min-width: 0;
         }
 
         .component {
           position: relative;
+          min-width: 0;
           min-height: 212px;
           padding: 14px;
           border: 1px solid rgba(255, 255, 255, 0.13);
@@ -516,8 +572,8 @@ class MyVaillantHeatPumpCard extends HTMLElement {
           position: absolute;
           left: 18px;
           top: 24px;
-          width: 78px;
-          height: 78px;
+          width: clamp(48px, 44%, 78px);
+          aspect-ratio: 1;
           border: 4px solid rgba(139, 215, 239, 0.76);
           border-radius: 50%;
           background:
@@ -529,7 +585,7 @@ class MyVaillantHeatPumpCard extends HTMLElement {
           position: absolute;
           right: 18px;
           top: 25px;
-          width: 42px;
+          width: clamp(24px, 24%, 42px);
           height: 76px;
           border-radius: 10px;
           background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.24) 0 3px, transparent 3px 8px);
@@ -538,7 +594,7 @@ class MyVaillantHeatPumpCard extends HTMLElement {
         .tower-body {
           position: relative;
           display: grid;
-          grid-template-columns: 54px 1fr;
+          grid-template-columns: minmax(38px, 54px) minmax(0, 1fr);
           gap: 13px;
           height: 136px;
           margin-top: 15px;
@@ -582,7 +638,7 @@ class MyVaillantHeatPumpCard extends HTMLElement {
         }
 
         .roof {
-          width: 112px;
+          width: min(112px, 72%);
           height: 72px;
           margin: 0 auto;
           clip-path: polygon(50% 0, 100% 58%, 86% 58%, 86% 100%, 14% 100%, 14% 58%, 0 58%);
@@ -590,7 +646,7 @@ class MyVaillantHeatPumpCard extends HTMLElement {
         }
 
         .floor-loop {
-          width: 142px;
+          width: min(142px, 88%);
           height: 48px;
           margin: 10px auto 0;
           border-radius: 999px;
@@ -625,7 +681,7 @@ class MyVaillantHeatPumpCard extends HTMLElement {
 
         .metric {
           display: grid;
-          grid-template-columns: auto auto;
+          grid-template-columns: minmax(0, 1fr) minmax(0, auto);
           gap: 6px;
           align-items: baseline;
           margin-top: 13px;
@@ -638,6 +694,10 @@ class MyVaillantHeatPumpCard extends HTMLElement {
           justify-self: end;
           font-size: 18px;
           font-weight: 850;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         .metric.warn b {
@@ -737,7 +797,7 @@ class MyVaillantHeatPumpCard extends HTMLElement {
 
         .row {
           display: grid;
-          grid-template-columns: 22px minmax(0, 1fr) minmax(52px, max-content);
+          grid-template-columns: 22px minmax(0, 1fr) minmax(52px, 42%);
           gap: 8px;
           align-items: center;
           min-height: 32px;
@@ -778,6 +838,125 @@ class MyVaillantHeatPumpCard extends HTMLElement {
         .empty {
           color: rgba(247, 251, 255, 0.6);
           font-size: 13px;
+        }
+
+        .compact-summary {
+          display: none;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 8px;
+          margin: 4px 0 10px;
+        }
+
+        .summary-tile {
+          display: grid;
+          grid-template-columns: 20px minmax(0, 1fr);
+          grid-template-areas:
+            "icon label"
+            "icon value";
+          column-gap: 7px;
+          align-items: center;
+          min-width: 0;
+          min-height: 48px;
+          padding: 8px;
+          border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.07);
+        }
+
+        .summary-tile ha-icon {
+          grid-area: icon;
+          width: 18px;
+          color: rgba(139, 215, 239, 0.92);
+        }
+
+        .summary-tile span {
+          grid-area: label;
+          color: rgba(247, 251, 255, 0.62);
+          font-size: 10px;
+          font-weight: 780;
+          text-transform: uppercase;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .summary-tile b {
+          grid-area: value;
+          color: #fff;
+          font-size: 13px;
+          font-weight: 820;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .summary-tile.active b {
+          color: #4ee1a0;
+        }
+
+        .summary-tile.hot ha-icon {
+          color: #f4ac40;
+        }
+
+        .summary-tile.warn b {
+          color: #ffcf66;
+        }
+
+        .card.compact {
+          padding: 12px;
+        }
+
+        .card.compact .top {
+          gap: 10px;
+          margin-bottom: 10px;
+        }
+
+        .card.compact .eyebrow,
+        .card.compact .subtitle,
+        .card.compact .scene,
+        .card.compact .quick,
+        .card.compact .runtime {
+          display: none;
+        }
+
+        .card.compact .title {
+          font-size: 20px;
+          line-height: 1.15;
+        }
+
+        .card.compact .compact-summary {
+          display: grid;
+        }
+
+        .card.compact .panel-grid {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .card.compact .panel {
+          padding: 8px 10px;
+          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.055);
+        }
+
+        .card.compact .panel header {
+          margin-bottom: 4px;
+          font-size: 13px;
+        }
+
+        .card.compact .row {
+          min-height: 26px;
+          grid-template-columns: 18px minmax(0, 1fr) minmax(48px, 38%);
+          gap: 6px;
+        }
+
+        .card.compact .row ha-icon {
+          width: 16px;
+        }
+
+        .card.compact .row span,
+        .card.compact .row b {
+          font-size: 12px;
         }
 
         @keyframes spin {
@@ -846,8 +1025,60 @@ class MyVaillantHeatPumpCard extends HTMLElement {
           }
         }
 
+        @container (max-width: 540px) {
+          .card {
+            padding: 12px;
+          }
+
+          .scene {
+            display: none;
+          }
+
+          .quick {
+            display: none;
+          }
+
+          .compact-summary {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .panel-grid {
+            gap: 8px;
+          }
+
+          .panel {
+            padding: 9px 10px;
+            border-radius: 10px;
+          }
+
+          .panel header {
+            margin-bottom: 4px;
+            font-size: 13px;
+          }
+
+          .row {
+            min-height: 28px;
+            grid-template-columns: 18px minmax(0, 1fr) minmax(48px, 38%);
+            gap: 6px;
+          }
+
+          .row ha-icon {
+            width: 16px;
+          }
+
+          .row span,
+          .row b {
+            font-size: 12px;
+          }
+        }
+
         @container (max-width: 420px) {
           .quick {
+            grid-template-columns: 1fr;
+          }
+
+          .compact-summary {
             grid-template-columns: 1fr;
           }
 
@@ -906,15 +1137,64 @@ class MyVaillantHeatPumpCard extends HTMLElement {
           }
         }
 
+        @media (max-width: 540px) {
+          .card {
+            padding: 12px;
+          }
+
+          .scene,
+          .quick {
+            display: none;
+          }
+
+          .compact-summary {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .panel-grid {
+            gap: 8px;
+          }
+
+          .panel {
+            padding: 9px 10px;
+            border-radius: 10px;
+          }
+
+          .panel header {
+            margin-bottom: 4px;
+            font-size: 13px;
+          }
+
+          .row {
+            min-height: 28px;
+            grid-template-columns: 18px minmax(0, 1fr) minmax(48px, 38%);
+            gap: 6px;
+          }
+
+          .row ha-icon {
+            width: 16px;
+          }
+
+          .row span,
+          .row b {
+            font-size: 12px;
+          }
+        }
+
         @media (max-width: 420px) {
           .quick {
+            grid-template-columns: 1fr;
+          }
+
+          .compact-summary {
             grid-template-columns: 1fr;
           }
         }
       </style>
 
       <ha-card>
-        <div class="card ${running ? "running" : "idle"}">
+        <div class="card ${running ? "running" : "idle"} ${compact ? "compact" : ""}">
           <div class="top">
             <div>
               <div class="eyebrow">myVAILLANT heat pump</div>
@@ -928,6 +1208,10 @@ class MyVaillantHeatPumpCard extends HTMLElement {
                 <b>${status}</b>
               </div>
             </div>
+          </div>
+
+          <div class="compact-summary">
+            ${summaryTiles}
           </div>
 
           <div class="scene">
@@ -1098,6 +1382,14 @@ class MyVaillantHeatPumpCardEditor extends HTMLElement {
       });
     }
 
+    const compact = this.shadowRoot.getElementById("compact");
+    if (compact) {
+      compact.checked = Boolean(this._config?.compact);
+      compact.addEventListener("change", (event) => {
+        this.updateConfigValue("compact", Boolean(event.target.checked));
+      });
+    }
+
     this.shadowRoot.querySelectorAll("ha-entity-picker").forEach((picker) => {
       picker.addEventListener("value-changed", (event) => {
         this.updateEntity(picker.dataset.key, event.detail?.value || "");
@@ -1212,6 +1504,13 @@ class MyVaillantHeatPumpCardEditor extends HTMLElement {
         <div class="intro">
           <ha-textfield data-config-key="title" label="Title"></ha-textfield>
           <ha-textfield data-config-key="subtitle" label="Subtitle"></ha-textfield>
+          <label class="switch-row">
+            <span>
+              Compact layout
+              <small>Use a dense section-friendly view with summary tiles instead of the large infographic.</small>
+            </span>
+            <ha-switch id="compact"></ha-switch>
+          </label>
           <label class="switch-row">
             <span>
               Show empty fields
